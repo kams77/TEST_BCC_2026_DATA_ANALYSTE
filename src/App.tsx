@@ -13,13 +13,14 @@ import { RiskWarRoom } from './components/RiskWarRoom';
 import { SprintTrainer } from './components/SprintTrainer';
 import { CheatSheetModal } from './components/CheatSheetModal';
 import { MistakesReviewModal } from './components/MistakesReviewModal';
-
+import { AdmissionOddsModal } from './components/AdmissionOddsModal';
 import { TelecomBridge } from './components/TelecomBridge';
 
 function MainApp() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'exam' | 'sql' | 'scenarios' | 'sprint' | 'telecom'>('dashboard');
   const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
   const [isMistakesOpen, setIsMistakesOpen] = useState(false);
+  const [isOddsOpen, setIsOddsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors">
@@ -29,6 +30,7 @@ function MainApp() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         openCheatSheet={() => setIsCheatSheetOpen(true)}
+        openOddsModal={() => setIsOddsOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -38,6 +40,7 @@ function MainApp() {
             onNavigate={(tab) => setActiveTab(tab)}
             onOpenCheatSheet={() => setIsCheatSheetOpen(true)}
             onOpenMistakes={() => setIsMistakesOpen(true)}
+            onOpenOddsModal={() => setIsOddsOpen(true)}
           />
         )}
 
@@ -63,6 +66,15 @@ function MainApp() {
       </main>
 
       {/* Global Modals */}
+      <AdmissionOddsModal
+        isOpen={isOddsOpen}
+        onClose={() => setIsOddsOpen(false)}
+        onStartSimulation={() => {
+          setIsOddsOpen(false);
+          setActiveTab('exam');
+        }}
+      />
+
       <CheatSheetModal
         isOpen={isCheatSheetOpen}
         onClose={() => setIsCheatSheetOpen(false)}

@@ -22,12 +22,14 @@ interface DashboardProps {
   onNavigate: (tab: 'dashboard' | 'exam' | 'sql' | 'scenarios' | 'sprint' | 'telecom') => void;
   onOpenCheatSheet: () => void;
   onOpenMistakes: () => void;
+  onOpenOddsModal: () => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ 
   onNavigate, 
   onOpenCheatSheet, 
-  onOpenMistakes 
+  onOpenMistakes,
+  onOpenOddsModal
 }) => {
   const { 
     globalReadinessScore, 
@@ -86,8 +88,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </p>
 
           {/* Countdown & Quick Action Strip */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/90 border border-slate-700/80 text-xs font-medium text-slate-200">
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-800/90 border border-slate-700/80 text-xs font-medium text-slate-200">
               <Clock className="w-4 h-4 text-amber-400" />
               <span>Test officiel :</span>
               <span className="font-mono font-bold text-amber-300 tabular-nums">
@@ -102,6 +104,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
               <Zap className="w-4 h-4 fill-current" />
               <span>Lancer Simulation Complète</span>
               <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            <button
+              onClick={onOpenOddsModal}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md transition-transform hover:scale-[1.02]"
+              title="Calculer mes chances réelles d'être retenu"
+            >
+              <TrendingUp className="w-4 h-4" />
+              <span>Calculer Mes Chances</span>
             </button>
 
             <button
@@ -158,10 +169,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Card 1: Readiness Score */}
-        <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col justify-between">
+        <div 
+          onClick={onOpenOddsModal}
+          className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col justify-between cursor-pointer hover:border-amber-400 dark:hover:border-amber-500 hover:shadow-md transition-all group"
+        >
           <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
-            <span className="font-medium">Score d'Admissibilité</span>
-            <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span className="font-medium group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+              Score d'Admissibilité BCC
+            </span>
+            <div className="flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+              <span>Chances ↗</span>
+              <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            </div>
           </div>
           <div>
             <div className="flex items-baseline gap-2">
@@ -177,9 +196,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
               />
             </div>
           </div>
-          <p className={`text-xs font-semibold mt-3 ${statusInfo.color}`}>
-            {statusInfo.label}
-          </p>
+          <div className="flex items-center justify-between mt-3">
+            <p className={`text-xs font-semibold ${statusInfo.color}`}>
+              {statusInfo.label}
+            </p>
+            <span className="text-[10px] text-slate-400 group-hover:text-amber-500 font-medium transition-colors">
+              Calculer rang & odds
+            </span>
+          </div>
         </div>
 
         {/* Card 2: Accuracy */}

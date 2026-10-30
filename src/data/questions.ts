@@ -1055,5 +1055,87 @@ Quelle est l'attitude PROFESSIONNELLE et ÉTHIQUE irréprochable imposée par le
       proTip: 'À la Banque Centrale, l\'intégrité et le secret professionnel priment sur toutes les relations amicales ou familiales.'
     },
     timeEstimateSeconds: 30
+  },
+  {
+    id: 'cpm_bcc_polmon_01',
+    category: 'monetary_reporting_cpm',
+    categoryLabel: 'Politique Monétaire & Réglementation BCC',
+    difficulty: 'difficile',
+    title: 'Transmission du Taux Directeur BCC en Économie Bimonétaire',
+    prompt: `Dans le contexte de l'économie de la RDC caractérisée par une dollarisation financière d'environ 85% des dépôts bancaires, le Comité de Politique Monétaire (CPM) de la Banque Centrale du Congo décide d'augmenter son taux directeur de 200 points de base (de 25% à 27%).
+En tant que Data Analyste chargé de mesurer l'efficacité de la transmission, quel canal est le PLUS FORTEMENT ATTÉNUÉ par cette dollarisation structurelle ?`,
+    options: [
+      'Le canal traditionnel des taux d\'intérêt sur les crédits en Franc Congolais (CDF), car l\'essentiel de l\'intermédiation s\'effectue en devises étrangères (USD).',
+      'Le canal des réserves de change internationales.',
+      'Le canal des émissions de Bons BCC.',
+      'Le canal de surveillance des systèmes de paiement.'
+    ],
+    correctIndex: 0,
+    explanation: {
+      summary: 'La dollarisation neutralise en grande partie la transmission par les taux d\'intérêt domestiques.',
+      steps: [
+        'En RDC, la majorité des crédits et dépôts sont libellés en dollars américains (USD).',
+        'Une hausse du taux directeur de la BCC s\'applique directement aux refinancements en CDF, mais a peu d\'impact sur le coût du crédit libellé en USD (qui dépend des taux directeurs de la Réserve Fédérale américaine / SOFR).',
+        'Le CPM utilise donc conjointement l\'instrument des Bons BCC et les coefficients de réserves obligatoires différenciés sur devises pour réguler la liquidité.'
+      ],
+      bccRelevance: 'La Direction de la Recherche et des Statistiques de la BCC modélise précisément ces coefficients d\'élasticité pour préparer les notes de conjoncture soumises au Gouverneur.',
+      proTip: 'Retenez pour dimanche : en économie dollarisée, le canal du taux d\'intérêt est faible, le canal du taux de change (pass-through) est prédominant.'
+    },
+    timeEstimateSeconds: 45
+  },
+  {
+    id: 'sql_data_ats_03',
+    category: 'sql_data_analysis',
+    categoryLabel: 'SQL & Requêtage Avancé',
+    difficulty: 'difficile',
+    title: 'Détection d\'Anomalie de Débit sur le Switch National ATS',
+    prompt: `La table "bcc_ats_transactions" contient les virements de gros montants en temps réel.
+Quelle clause SQL permet de calculer pour chaque transaction le ratio de son montant par rapport à la moyenne des transactions émises par la MÊME banque commerciale durant la DERNIÈRE HEURE ?`,
+    options: [
+      'montant / AVG(montant) OVER (PARTITION BY bank_code ORDER BY tx_timestamp RANGE BETWEEN INTERVAL \'1 HOUR\' PRECEDING AND CURRENT ROW)',
+      'montant / (SELECT AVG(montant) FROM bcc_ats_transactions GROUP BY bank_code)',
+      'AVG(montant) FILTER (WHERE tx_timestamp >= NOW() - 3600)',
+      'SUM(montant) OVER (ORDER BY bank_code ROWS 60 PRECEDING)'
+    ],
+    correctIndex: 0,
+    explanation: {
+      summary: 'Utilisation d\'une fonction de fenêtrage temporelle avec RANGE BETWEEN INTERVAL.',
+      steps: [
+        'La partition doit se faire par banque émettrice : PARTITION BY bank_code.',
+        'La fenêtre glissante doit être temporelle (1 heure précédant la transaction) : RANGE BETWEEN INTERVAL \'1 HOUR\' PRECEDING AND CURRENT ROW.',
+        'Ceci permet de normaliser instantanément le flux pour détecter des pics suspects de liquidité ou des anomalies de piratage.'
+      ],
+      bccRelevance: 'Essentiel pour le monitoring de la Direction des Systèmes de Paiement (DSP) de la BCC.',
+      proTip: 'Retenez la différence : ROWS compte un nombre fixe de lignes, RANGE compte des valeurs temporelles ou numériques.'
+    },
+    timeEstimateSeconds: 50
+  },
+  {
+    id: 'entry_psy_07',
+    category: 'psychotech_entry_level',
+    categoryLabel: 'Psychotechnique Débutant (Premier Emploi)',
+    difficulty: 'moyen',
+    title: 'Priorisation Logique des Incidents de Sécurité DSI',
+    prompt: `Vous recevez simultanément 4 alertes de serveurs à la Direction Informatique de la BCC à 14h00 un jour ouvrable.
+Selon la criticité systémique et la continuité des paiements de la République, quel incident devez-vous traiter en PRIORITÉ ABSOLUE (Priorité 1) ?`,
+    options: [
+      'Alerte Incident A : Latence critique de 45 secondes sur la passerelle interbancaire RTGS/ATS bloquant la compensation des chèques et virements interbancaires.',
+      'Alerte Incident B : L\'imprimante réseau du bureau de la Direction des Ressources Humaines ne répond plus.',
+      'Alerte Incident C : Le portail web public d\'information de la BCC affiche une image non actualisée du taux indicatif.',
+      'Alerte Incident D : Un poste de travail d\'un stagiaire à la bibliothèque ne se connecte pas au Wi-Fi.'
+    ],
+    correctIndex: 0,
+    explanation: {
+      summary: 'La continuité d\'activité du système de règlement brut en temps réel (RTGS) prime sur toute autre application interne.',
+      steps: [
+        'Le système RTGS/ATS gère les liquidités vitales de toutes les banques commerciales de la RDC et de l\'État.',
+        'Un blocage de 45 secondes peut entraîner un risque systémique en chaîne (effet domino) et paralyser les paiements de l\'État et des entreprises.',
+        'Tous les autres incidents (imprimantes, portail d\'information, poste bureautique) sont secondaires (priorités 3 ou 4).'
+      ],
+      bccRelevance: 'Ce test évalue votre sens des responsabilités institutionnelles et la compréhension des enjeux d\'infrastructure critique d\'une Banque Centrale.',
+      proTip: 'En banque centrale, le cœur de métier (RTGS, réserves, compensation) passe toujours avant la bureautique.'
+    },
+    timeEstimateSeconds: 25
   }
 ];
+

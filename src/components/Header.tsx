@@ -1,14 +1,15 @@
 import React from 'react';
-import { Sun, Moon, Sparkles, BookOpen } from 'lucide-react';
+import { Sun, Moon, Sparkles, BookOpen, TrendingUp } from 'lucide-react';
 import { useProgress } from '../context/ProgressContext';
 
 interface HeaderProps {
   activeTab: 'dashboard' | 'exam' | 'sql' | 'scenarios' | 'sprint' | 'telecom';
   setActiveTab: (tab: 'dashboard' | 'exam' | 'sql' | 'scenarios' | 'sprint' | 'telecom') => void;
   openCheatSheet: () => void;
+  openOddsModal: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openCheatSheet }) => {
+export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openCheatSheet, openOddsModal }) => {
   const { theme, toggleTheme, globalReadinessScore } = useProgress();
 
   return (
@@ -81,22 +82,32 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, openChe
         </nav>
 
         {/* Zone 3: 1 primary action + theme toggle */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
+          <button
+            onClick={openOddsModal}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-lg transition-colors whitespace-nowrap shadow-xs"
+            title="Calculer mes probabilités statistiques d'être retenu au concours BCC"
+          >
+            <TrendingUp className="w-3.5 h-3.5 text-amber-500" />
+            <span className="hidden sm:inline">Chances d'Admission</span>
+            <span className="sm:hidden">Chances</span>
+          </button>
+
           <button
             onClick={openCheatSheet}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors whitespace-nowrap"
+            className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors whitespace-nowrap"
             title="Consulter les formules indispensables pour le test de dimanche"
           >
             <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>Mémento Dimanche</span>
+            <span>Mémento</span>
           </button>
 
           <button
             onClick={() => setActiveTab('exam')}
-            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 rounded-lg shadow-sm transition-all whitespace-nowrap"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 rounded-lg shadow-sm transition-all whitespace-nowrap"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Simuler le Test ({globalReadinessScore}%)</span>
+            <span>Simuler ({globalReadinessScore}%)</span>
           </button>
 
           <button
