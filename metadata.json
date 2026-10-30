@@ -1,0 +1,6 @@
+{
+  "name": "BCC Data Analyst - Simulateur & Préparation Concours",
+  "description": "Plateforme d'entraînement intensif aux tests psychotechniques, analyses de risques monétaires et SQL bancaire pour le recrutement Data Analyst à la Banque Centrale du Congo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
