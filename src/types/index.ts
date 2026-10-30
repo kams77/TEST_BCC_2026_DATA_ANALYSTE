@@ -65,7 +65,7 @@ export interface SQLChallenge {
   schemaTables: {
     name: string;
     columns: { name: string; type: string; comment: string }[];
-    sampleData: Record<string, string | number>[];
+    sampleData: Record<string, string | number | null>[];
   }[];
   expectedTask: string;
   initialCode: string;
